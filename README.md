@@ -1,5 +1,4 @@
-# Student Store Starter Code
-📝 `NOTE` Use this template to initialize the contents of a README.md file for your application. As you work on your assignment over the course of the week, update the required or stretch features lists to indicate which features you have completed by changing `[ ]` to `[x]`. (🚫 Remove this paragraph before submitting your assignment.)
+
 
 ## Unit Assignment: Student Store
 
@@ -109,24 +108,25 @@ Deployed Application (optional): [Student Store Deployed Site](ADD_LINK_HERE)
 
 * Did the topics discussed in your labs prepare you to complete the assignment? Be specific, which features in your weekly assignment did you feel unprepared to complete?
 
-Add your response here
+Ans: It helped me a lot
 
 * If you had more time, what would you have done differently? Would you have added additional features? Changed the way your project responded to a particular event, etc.
   
-Add your response here
+Ans: I would work on stretch features
 
 * Reflect on your project demo, what went well? Were there things that maybe didn't go as planned? Did you notice something that your peer did that you would like to try next time?
 
-Add your response here
+Ans: I was confident, and could explain what each line of code does.
 
 ### Open-source libraries used
 
-- Add any links to open-source libraries used in your project.
+- NA
 
 ### Shout out
 
 Give a shout out to somebody from your cohort that especially helped you during your project. This can be a fellow peer, instructor, TA, mentor, etc.
 
+Ans: I would like to thank Sameer for helping me with the planning part for the end points.
 
 
 
