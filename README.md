@@ -4,7 +4,8 @@
 
 Submitted by: **Monika Basnet**
 
-Deployed Application (optional): [Student Store Deployed Site](ADD_LINK_HERE)
+- [ ] Deployed Application (optional): [Student Store Deployed Site](ADD_LINK_HERE)
+- [X] [Walkthtourgh Video : [Walkthrough Video)(https://www.loom.com/share/fcceb16307494026b40c116e854b4c6a)
 
 ### Application Features
 
