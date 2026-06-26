@@ -36,7 +36,52 @@ function App() {
     setSearchInputValue(event.target.value);
   };
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setIsFetching(true);
+      try {
+        const response = await axios.get('http://localhost:3000/products');
+        setProducts(response.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsFetching(false);
+      }
+    };
+    fetchProducts();
+  }, []);
+
   const handleOnCheckout = async () => {
+    setIsCheckingOut(true);
+    try {
+      console.log('Cart before checkout:', cart);
+
+      const orderItems = Object.keys(cart).map(productId => ({
+        product_id: parseInt(productId),
+        quantity: cart[productId]
+      }));
+
+      console.log('Order items to send:', orderItems);
+
+      const requestBody = {
+        customer_id: 1,
+        status: 'pending',
+        items: orderItems
+      };
+
+      console.log('Request body:', requestBody);
+
+      const response = await axios.post('http://localhost:3000/orders', requestBody);
+
+      console.log('Order created successfully:', response.data);
+      setOrder(response.data);
+      setCart({});
+    } catch (err) {
+      console.error('Checkout error:', err);
+      setError(err.message);
+    } finally {
+      setIsCheckingOut(false);
+    }
   }
 
 

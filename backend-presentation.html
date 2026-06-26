@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Store Backend - Technical Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .slide {
+            background: white;
+            border-radius: 20px;
+            padding: 60px;
+            margin: 40px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2.5em;
+            color: #764ba2;
+            margin-bottom: 30px;
+            border-bottom: 4px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            font-size: 1.8em;
+            color: #667eea;
+            margin: 30px 0 15px 0;
+        }
+
+        h4 {
+            font-size: 1.3em;
+            color: #764ba2;
+            margin: 20px 0 10px 0;
+        }
+
+        .title-slide {
+            text-align: center;
+            padding: 100px 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .title-slide h1 {
+            color: white;
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .title-slide p {
+            font-size: 1.5em;
+            margin: 20px 0;
+            opacity: 0.95;
+        }
+
+        .architecture-diagram {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .flow-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .flow-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: relative;
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .flow-arrow {
+            font-size: 2em;
+            color: #667eea;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 25px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .code-block .keyword {
+            color: #ff79c6;
+        }
+
+        .code-block .string {
+            color: #f1fa8c;
+        }
+
+        .code-block .comment {
+            color: #6272a4;
+            font-style: italic;
+        }
+
+        .code-block .function {
+            color: #50fa7b;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .tech-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .tech-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .tech-item h4 {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .database-schema {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+        }
+
+        .table-box {
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .table-box h4 {
+            color: #667eea;
+            border-bottom: 2px solid #764ba2;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .field {
+            padding: 8px;
+            margin: 5px 0;
+            background: #f8f9fa;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .field-name {
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .field-type {
+            color: #764ba2;
+            font-style: italic;
+        }
+
+        .endpoint-list {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+
+        .endpoint {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .http-method {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-right: 15px;
+            color: white;
+        }
+
+        .get { background: #28a745; }
+        .post { background: #007bff; }
+        .put { background: #ffc107; }
+        .delete { background: #dc3545; }
+
+        .endpoint-path {
+            font-family: 'Courier New', monospace;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .endpoint-desc {
+            color: #666;
+            margin-top: 8px;
+            font-size: 0.95em;
+        }
+
+        .highlight-box {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 5px solid #17a2b8;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 40px;
+            line-height: 2;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        .file-structure {
+            background: #2d2d2d;
+            color: #50fa7b;
+            padding: 25px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+            line-height: 1.8;
+        }
+
+        .folder {
+            color: #8be9fd;
+        }
+
+        .file {
+            color: #f1fa8c;
+        }
+
+        .three-column {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .column-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .column-box h4 {
+            color: white;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .column-box ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .column-box li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .relationship-diagram {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.8em;
+            }
+
+            .three-column {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-stack {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .key-feature {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .feature-icon {
+            font-size: 2em;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Title Slide -->
+        <div class="slide title-slide">
+            <h1>🏪 Student Store Backend</h1>
+            <p>A Full-Stack E-Commerce API</p>
+            <p style="font-size: 1.2em; margin-top: 40px;">Technical Architecture & Implementation</p>
+            <p style="font-size: 1em; opacity: 0.8; margin-top: 30px;">By Monika Basnet</p>
+        </div>
+
+        <!-- Project Overview -->
+        <div class="slide">
+            <h2>📋 Project Overview</h2>
+
+            <div class="success-box">
+                <h3>What is the Student Store?</h3>
+                <p>A complete e-commerce backend system that powers an online store. It handles product management, order processing, and maintains customer purchase history using a RESTful API architecture.</p>
+            </div>
+
+            <h3>Key Capabilities</h3>
+            <div class="key-feature">
+                <div class="feature-icon">🛍️</div>
+                <div>
+                    <strong>Product Management</strong>
+                    <p>Browse, search, filter, and manage store inventory</p>
+                </div>
+            </div>
+
+            <div class="key-feature">
+                <div class="feature-icon">🛒</div>
+                <div>
+                    <strong>Order Processing</strong>
+                    <p>Create orders with multiple items, track order status</p>
+                </div>
+            </div>
+
+            <div class="key-feature">
+                <div class="feature-icon">💾</div>
+                <div>
+                    <strong>Database Persistence</strong>
+                    <p>PostgreSQL database with relational data management</p>
+                </div>
+            </div>
+
+            <div class="key-feature">
+                <div class="feature-icon">🔗</div>
+                <div>
+                    <strong>RESTful API</strong>
+                    <p>15+ API endpoints for full CRUD operations</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technology Stack -->
+        <div class="slide">
+            <h2>🛠️ Technology Stack</h2>
+
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <h4>Node.js</h4>
+                    <p>JavaScript runtime for server-side execution</p>
+                </div>
+
+                <div class="tech-item">
+                    <h4>Express.js</h4>
+                    <p>Web framework for building the API</p>
+                </div>
+
+                <div class="tech-item">
+                    <h4>PostgreSQL</h4>
+                    <p>Relational database for data storage</p>
+                </div>
+
+                <div class="tech-item">
+                    <h4>Prisma ORM</h4>
+                    <p>Modern database toolkit and query builder</p>
+                </div>
+
+                <div class="tech-item">
+                    <h4>CORS</h4>
+                    <p>Cross-Origin Resource Sharing middleware</p>
+                </div>
+
+                <div class="tech-item">
+                    <h4>Nodemon</h4>
+                    <p>Development tool for auto-reloading</p>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>📦 Package.json Scripts</h4>
+                <ul>
+                    <li><code>npm start</code> - Start production server</li>
+                    <li><code>npm run dev</code> - Start development server with auto-reload</li>
+                    <li><code>npm run seed</code> - Seed database with initial data</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Architecture Pattern -->
+        <div class="slide">
+            <h2>🏗️ Architecture: MVC Pattern</h2>
+
+            <div class="info-box">
+                <h3>Model-View-Controller (Backend)</h3>
+                <p>The project follows a modified MVC architecture pattern, separating concerns into Routes, Controllers, and Models for clean, maintainable code.</p>
+            </div>
+
+            <div class="three-column">
+                <div class="column-box">
+                    <h4>📍 Routes</h4>
+                    <ul>
+                        <li>Define API endpoints</li>
+                        <li>Map URLs to controllers</li>
+                        <li>Handle HTTP methods</li>
+                        <li>No business logic</li>
+                    </ul>
+                </div>
+
+                <div class="column-box">
+                    <h4>🎮 Controllers</h4>
+                    <ul>
+                        <li>Handle requests/responses</li>
+                        <li>Validate input data</li>
+                        <li>Business logic</li>
+                        <li>Error handling</li>
+                        <li>Format responses</li>
+                    </ul>
+                </div>
+
+                <div class="column-box">
+                    <h4>💾 Models</h4>
+                    <ul>
+                        <li>Database operations</li>
+                        <li>Prisma queries</li>
+                        <li>CRUD methods</li>
+                        <li>Return raw data</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Why This Architecture?</h3>
+            <ul>
+                <li><strong>Separation of Concerns:</strong> Each layer has a specific responsibility</li>
+                <li><strong>Maintainability:</strong> Easy to find and fix bugs</li>
+                <li><strong>Scalability:</strong> Can add features without breaking existing code</li>
+                <li><strong>Testability:</strong> Each component can be tested independently</li>
+                <li><strong>Team Collaboration:</strong> Multiple developers can work on different layers</li>
+            </ul>
+        </div>
+
+        <!-- File Structure -->
+        <div class="slide">
+            <h2>📁 Project File Structure</h2>
+
+            <div class="file-structure">
+student-store-api/
+├── <span class="folder">src/</span>
+│   └── <span class="file">server.js</span>              ← Main application entry point
+│
+├── <span class="folder">routes/</span>                     ← API endpoint definitions
+│   ├── <span class="file">productRoutes.js</span>      ← /products endpoints
+│   ├── <span class="file">orderRoutes.js</span>        ← /orders endpoints
+│   └── <span class="file">orderItemRoutes.js</span>    ← /order-items endpoints
+│
+├── <span class="folder">controllers/</span>                ← Request handling & business logic
+│   ├── <span class="file">productController.js</span>
+│   ├── <span class="file">orderController.js</span>
+│   └── <span class="file">orderItemController.js</span>
+│
+├── <span class="folder">models/</span>                     ← Database operations
+│   ├── <span class="file">product.js</span>            ← Product CRUD operations
+│   ├── <span class="file">order.js</span>              ← Order CRUD operations
+│   └── <span class="file">orderItem.js</span>          ← OrderItem CRUD operations
+│
+├── <span class="folder">prisma/</span>                     ← Database configuration
+│   ├── <span class="file">schema.prisma</span>         ← Database schema definition
+│   └── <span class="folder">migrations/</span>             ← Database version history
+│
+├── <span class="file">seed.js</span>                   ← Database seeding script
+├── <span class="file">package.json</span>              ← Dependencies & scripts
+└── <span class="file">.env</span>                      ← Environment variables (DATABASE_URL)
+            </div>
+
+            <div class="highlight-box">
+                <h4>💡 Key Files</h4>
+                <ul>
+                    <li><strong>server.js:</strong> Sets up Express server, middleware, and mounts routes</li>
+                    <li><strong>schema.prisma:</strong> Defines database tables and relationships</li>
+                    <li><strong>.env:</strong> Stores sensitive database connection string</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Request Flow -->
+        <div class="slide">
+            <h2>🔄 Request Flow: How Everything Connects</h2>
+
+            <div class="architecture-diagram">
+                <h3>Example: GET /products/1</h3>
+
+                <div class="flow-diagram">
+                    <div class="flow-box">1️⃣ Client Request<br><code>GET http://localhost:3000/products/1</code></div>
+                    <div class="flow-arrow">⬇️</div>
+
+                    <div class="flow-box">2️⃣ Server (server.js)<br>Receives request, routes to /products</div>
+                    <div class="flow-arrow">⬇️</div>
+
+                    <div class="flow-box">3️⃣ Router (productRoutes.js)<br>Matches /:id pattern → calls controller</div>
+                    <div class="flow-arrow">⬇️</div>
+
+                    <div class="flow-box">4️⃣ Controller (productController.js)<br>Validates ID, calls model</div>
+                    <div class="flow-arrow">⬇️</div>
+
+                    <div class="flow-box">5️⃣ Model (product.js)<br>Executes Prisma query</div>
+                    <div class="flow-arrow">⬇️</div>
+
+                    <div class="flow-box">6️⃣ Database (PostgreSQL)<br>Returns product data</div>
+                    <div class="flow-arrow">⬆️</div>
+
+                    <div class="flow-box">7️⃣ Response<br>JSON data sent back to client</div>
+                </div>
+            </div>
+
+            <h3>Step-by-Step Breakdown</h3>
+            <ol>
+                <li><strong>Client sends request:</strong> Browser or Postman sends HTTP request</li>
+                <li><strong>Express receives:</strong> server.js receives and processes with middleware (CORS, JSON parser)</li>
+                <li><strong>Router matches:</strong> Routes file matches URL pattern to controller function</li>
+                <li><strong>Controller processes:</strong> Validates input, handles business logic, error handling</li>
+                <li><strong>Model queries:</strong> Makes database query using Prisma ORM</li>
+                <li><strong>Database responds:</strong> PostgreSQL returns data</li>
+                <li><strong>Response sent:</strong> Data flows back up through model → controller → route → client</li>
+            </ol>
+        </div>
+
+        <!-- Code Example: Complete Flow -->
+        <div class="slide">
+            <h2>💻 Code Example: Complete Flow</h2>
+
+            <h3>1. Route Definition (productRoutes.js)</h3>
+            <div class="code-block">
+<span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> router = express.<span class="function">Router</span>();
+<span class="keyword">const</span> productController = <span class="function">require</span>(<span class="string">'../controllers/productController'</span>);
+
+<span class="comment">// Map GET /:id to controller function</span>
+router.<span class="function">get</span>(<span class="string">'/:id'</span>, productController.getProductById);
+
+<span class="keyword">module</span>.exports = router;
+            </div>
+
+            <h3>2. Controller Logic (productController.js)</h3>
+            <div class="code-block">
+<span class="keyword">const</span> Product = <span class="function">require</span>(<span class="string">'../models/product'</span>);
+
+<span class="keyword">const</span> <span class="function">getProductById</span> = <span class="keyword">async</span> (req, res) => {
+    <span class="keyword">try</span> {
+        <span class="comment">// Call the model to fetch data</span>
+        <span class="keyword">const</span> product = <span class="keyword">await</span> Product.<span class="function">findById</span>(req.params.id);
+
+        <span class="comment">// Send successful response</span>
+        res.<span class="function">status</span>(200).<span class="function">json</span>(product);
+    } <span class="keyword">catch</span> (error) {
+        <span class="comment">// Handle errors</span>
+        res.<span class="function">status</span>(500).<span class="function">json</span>({ error: <span class="string">'Failed to fetch product'</span> });
+    }
+}
+
+<span class="keyword">module</span>.exports = { getProductById };
+            </div>
+
+            <h3>3. Model Database Query (product.js)</h3>
+            <div class="code-block">
+<span class="keyword">const</span> { PrismaClient } = <span class="function">require</span>(<span class="string">'@prisma/client'</span>);
+<span class="keyword">const</span> prisma = <span class="keyword">new</span> <span class="function">PrismaClient</span>();
+
+<span class="keyword">class</span> Product {
+    <span class="keyword">static async</span> <span class="function">findById</span>(id) {
+        <span class="comment">// Prisma query to database</span>
+        <span class="keyword">return await</span> prisma.product.<span class="function">findUnique</span>({
+            where: { id: <span class="function">parseInt</span>(id) }
+        });
+    }
+}
+
+<span class="keyword">module</span>.exports = Product;
+            </div>
+        </div>
+
+        <!-- Database Schema -->
+        <div class="slide">
+            <h2>🗄️ Database Schema</h2>
+
+            <div class="database-schema">
+                <h3>Three Main Tables with Relationships</h3>
+
+                <div class="table-box">
+                    <h4>📦 Product Table</h4>
+                    <div class="field"><span class="field-name">id</span> <span class="field-type">Integer (Primary Key, Auto-increment)</span></div>
+                    <div class="field"><span class="field-name">name</span> <span class="field-type">String</span> - Product name</div>
+                    <div class="field"><span class="field-name">description</span> <span class="field-type">String</span> - Product details</div>
+                    <div class="field"><span class="field-name">price</span> <span class="field-type">Decimal</span> - Product price</div>
+                    <div class="field"><span class="field-name">image_url</span> <span class="field-type">String</span> - Image link</div>
+                    <div class="field"><span class="field-name">category</span> <span class="field-type">String</span> - Product category</div>
+                    <div class="field"><span class="field-name">order_items</span> <span class="field-type">Relation[]</span> - Connected OrderItems</div>
+                </div>
+
+                <div class="table-box">
+                    <h4>🛒 Order Table</h4>
+                    <div class="field"><span class="field-name">order_id</span> <span class="field-type">Integer (Primary Key, Auto-increment)</span></div>
+                    <div class="field"><span class="field-name">customer_id</span> <span class="field-type">Integer</span> - Customer identifier</div>
+                    <div class="field"><span class="field-name">total_price</span> <span class="field-type">Decimal</span> - Total order cost</div>
+                    <div class="field"><span class="field-name">status</span> <span class="field-type">String</span> - Order status (pending, completed)</div>
+                    <div class="field"><span class="field-name">created_at</span> <span class="field-type">DateTime</span> - Timestamp (auto)</div>
+                    <div class="field"><span class="field-name">order_items</span> <span class="field-type">Relation[]</span> - Connected OrderItems</div>
+                </div>
+
+                <div class="table-box">
+                    <h4>📋 OrderItem Table (Join Table)</h4>
+                    <div class="field"><span class="field-name">order_item_id</span> <span class="field-type">Integer (Primary Key, Auto-increment)</span></div>
+                    <div class="field"><span class="field-name">order_id</span> <span class="field-type">Integer (Foreign Key → Order)</span></div>
+                    <div class="field"><span class="field-name">product_id</span> <span class="field-type">Integer (Foreign Key → Product)</span></div>
+                    <div class="field"><span class="field-name">quantity</span> <span class="field-type">Integer</span> - Number of items</div>
+                    <div class="field"><span class="field-name">price</span> <span class="field-type">Decimal</span> - Price snapshot</div>
+                    <div class="field"><span class="field-name">order</span> <span class="field-type">Relation</span> - Connected Order</div>
+                    <div class="field"><span class="field-name">product</span> <span class="field-type">Relation</span> - Connected Product</div>
+                </div>
+            </div>
+
+            <div class="relationship-diagram">
+                <h3>🔗 Table Relationships</h3>
+                <div style="display: flex; justify-content: center; align-items: center; gap: 40px; flex-wrap: wrap; margin: 30px 0;">
+                    <div class="flow-box" style="min-width: 200px;">Product</div>
+                    <div style="font-size: 2em; color: #667eea;">⬅️ Many-to-Many ➡️</div>
+                    <div class="flow-box" style="min-width: 200px;">Order</div>
+                </div>
+                <div style="text-align: center; font-size: 2em; color: #667eea; margin: 20px 0;">⬆️</div>
+                <div class="flow-box" style="margin: 0 auto; max-width: 300px;">OrderItem<br>(Junction Table)</div>
+
+                <div class="highlight-box" style="margin-top: 30px; text-align: left;">
+                    <h4>Relationship Explanation</h4>
+                    <ul>
+                        <li><strong>One Order</strong> can have <strong>many OrderItems</strong> (One-to-Many)</li>
+                        <li><strong>One Product</strong> can be in <strong>many OrderItems</strong> (One-to-Many)</li>
+                        <li><strong>OrderItem</strong> connects Products and Orders (Many-to-Many through junction)</li>
+                        <li><strong>Cascade Delete:</strong> When an Order is deleted, all its OrderItems are automatically deleted</li>
+                        <li><strong>Cascade Delete:</strong> When a Product is deleted, all OrderItems referencing it are deleted</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Prisma Schema Code -->
+        <div class="slide">
+            <h2>📝 Prisma Schema Definition</h2>
+
+            <div class="info-box">
+                <p>The schema.prisma file defines the database structure. Prisma uses this to generate the database tables and the Prisma Client for querying.</p>
+            </div>
+
+            <div class="code-block">
+<span class="comment">// Database connection configuration</span>
+<span class="keyword">datasource</span> db {
+    provider = <span class="string">"postgresql"</span>
+    url      = <span class="function">env</span>(<span class="string">"DATABASE_URL"</span>)
+}
+
+<span class="keyword">generator</span> client {
+    provider = <span class="string">"prisma-client-js"</span>
+}
+
+<span class="comment">// Product model</span>
+<span class="keyword">model</span> Product {
+    id          <span class="field-type">Int</span>         @id @default(<span class="function">autoincrement</span>())
+    name        <span class="field-type">String</span>
+    description <span class="field-type">String</span>
+    price       <span class="field-type">Decimal</span>
+    image_url   <span class="field-type">String</span>
+    category    <span class="field-type">String</span>
+    order_items <span class="field-type">OrderItem[]</span> <span class="comment">// Relationship</span>
+}
+
+<span class="comment">// Order model</span>
+<span class="keyword">model</span> Order {
+    order_id     <span class="field-type">Int</span>         @id @default(<span class="function">autoincrement</span>())
+    customer_id  <span class="field-type">Int</span>
+    total_price  <span class="field-type">Decimal</span>
+    status       <span class="field-type">String</span>
+    created_at   <span class="field-type">DateTime</span>    @default(<span class="function">now</span>())
+    order_items  <span class="field-type">OrderItem[]</span> <span class="comment">// Relationship</span>
+}
+
+<span class="comment">// OrderItem model (junction table)</span>
+<span class="keyword">model</span> OrderItem {
+    order_item_id <span class="field-type">Int</span>     @id @default(<span class="function">autoincrement</span>())
+    order_id      <span class="field-type">Int</span>
+    product_id    <span class="field-type">Int</span>
+    quantity      <span class="field-type">Int</span>
+    price         <span class="field-type">Decimal</span>
+
+    <span class="comment">// Relationships with cascade delete</span>
+    order         <span class="field-type">Order</span>   @relation(fields: [order_id], references: [order_id], onDelete: <span class="keyword">Cascade</span>)
+    product       <span class="field-type">Product</span> @relation(fields: [product_id], references: [id], onDelete: <span class="keyword">Cascade</span>)
+}
+            </div>
+
+            <div class="success-box">
+                <h4>✨ Prisma Benefits</h4>
+                <ul>
+                    <li><strong>Type Safety:</strong> Auto-generated TypeScript types</li>
+                    <li><strong>Migration System:</strong> Version control for database changes</li>
+                    <li><strong>Prisma Studio:</strong> Visual database browser</li>
+                    <li><strong>Query Builder:</strong> Write queries in JavaScript, not SQL</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- API Endpoints -->
+        <div class="slide">
+            <h2>🌐 API Endpoints</h2>
+
+            <h3>Product Endpoints</h3>
+            <div class="endpoint-list">
+                <div class="endpoint">
+                    <span class="http-method get">GET</span>
+                    <span class="endpoint-path">/products</span>
+                    <div class="endpoint-desc">Fetch all products (supports ?category= and ?sort= filters)</div>
+                </div>
+
+                <div class="endpoint">
+                    <span class="http-method get">GET</span>
+                    <span class="endpoint-path">/products/:id</span>
+                    <div class="endpoint-desc">Fetch a single product by ID</div>
+                </div>
+
+                <div class="endpoint">
+                    <span class="http-method post">POST</span>
+                    <span class="endpoint-path">/products</span>
+                    <div class="endpoint-desc">Create a new product</div>
+                </div>
+
+                <div class="endpoint">
+                    <span class="http-method put">PUT</span>
+                    <span class="endpoint-path">/products/:id</span>
+                    <div class="endpoint-desc">Update an existing product</div>
+                </div>
+
+                <div class="endpoint">
+                    <span class="http-method delete">DELETE</span>
+                    <span class="endpoint-path">/products/:id</span>
+                    <div class="endpoint-desc">Delete a product (cascades to order items)</div>
+                </div>
+            </div>
+
+            <h3>Order Endpoints</h3>
+            <div class="endpoint-list">
+                <div class="endpoint">
+                    <span class="http-method get">GET</span>
+                    <span class="endpoint-path">/orders</span>
+                    <div class="endpoint-desc">Fetch all orders</div>
+                </div>
+
+                <div class="endpoint">
+                    <span class="http-method get">GET</span>
+                    <span class="endpoint-path">/orders/:order_id</span>
+                    <div class="endpoint-desc">Fetch a single order with its items</div>
+                </div>
+
+                <div class="endpoint">
+                    <span class="http-method post">POST</span>
+                    <span class="endpoint-path">/orders</span>
+                    <div class="endpoint-desc">Create a new order with items (transaction)</div>
+                </div>
+
+                <div class="endpoint">
+                    <span class="http-method put">PUT</span>
+                    <span class="endpoint-path">/orders/:order_id</span>
+                    <div class="endpoint-desc">Update order status</div>
+                </div>
+
+                <div class="endpoint">
+                    <span class="http-method delete">DELETE</span>
+                    <span class="endpoint-path">/orders/:order_id</span>
+                    <div class="endpoint-desc">Delete an order (cascades to order items)</div>
+                </div>
+            </div>
+
+            <h3>Order Item Endpoints</h3>
+            <div class="endpoint-list">
+                <div class="endpoint">
+                    <span class="http-method get">GET</span>
+                    <span class="endpoint-path">/order-items</span>
+                    <div class="endpoint-desc">Fetch all order items</div>
+                </div>
+
+                <div class="endpoint">
+                    <span class="http-method post">POST</span>
+                    <span class="endpoint-path">/order-items</span>
+                    <div class="endpoint-desc">Create a new order item</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Advanced Features -->
+        <div class="slide">
+            <h2>⚡ Advanced Features</h2>
+
+            <h3>1. Query Filtering & Sorting</h3>
+            <div class="highlight-box">
+                <p>Products can be filtered by category and sorted by price or name:</p>
+                <code>GET /products?category=clothing&sort=price</code>
+            </div>
+
+            <div class="code-block">
+<span class="comment">// Model handles dynamic filtering</span>
+<span class="keyword">static async</span> <span class="function">findAll</span>(filters = {}) {
+    <span class="keyword">const</span> { category, sort } = filters;
+    <span class="keyword">const</span> queryOptions = {};
+
+    <span class="comment">// Add category filter if provided</span>
+    <span class="keyword">if</span> (category) {
+        queryOptions.where = { category: category };
+    }
+
+    <span class="comment">// Add sorting if provided</span>
+    <span class="keyword">if</span> (sort === <span class="string">'price'</span> || sort === <span class="string">'name'</span>) {
+        queryOptions.orderBy = { [sort]: <span class="string">'asc'</span> };
+    }
+
+    <span class="keyword">return await</span> prisma.product.<span class="function">findMany</span>(queryOptions);
+}
+            </div>
+
+            <h3>2. Database Transactions</h3>
+            <div class="info-box">
+                <p><strong>Problem:</strong> When creating an order, we need to create the order AND its items. If one fails, both should fail.</p>
+                <p><strong>Solution:</strong> Prisma transactions ensure data consistency.</p>
+            </div>
+
+            <div class="code-block">
+<span class="comment">// Create order with items atomically</span>
+<span class="keyword">static async</span> <span class="function">createWithItems</span>(orderData) {
+    <span class="keyword">return await</span> prisma.order.<span class="function">create</span>({
+        data: {
+            customer_id: orderData.customer_id,
+            total_price: orderData.total_price,
+            status: orderData.status,
+            order_items: {
+                <span class="function">create</span>: orderData.items <span class="comment">// Create all items in one transaction</span>
+            }
+        },
+        include: {
+            order_items: <span class="keyword">true</span> <span class="comment">// Return with items included</span>
+        }
+    });
+}
+            </div>
+
+            <h3>3. Cascade Deletes</h3>
+            <div class="success-box">
+                <p><strong>Automatic Cleanup:</strong> When you delete an Order or Product, all related OrderItems are automatically deleted thanks to <code>onDelete: Cascade</code> in the schema.</p>
+                <p>This prevents orphaned records and maintains database integrity.</p>
+            </div>
+
+            <h3>4. CORS Configuration</h3>
+            <div class="code-block">
+<span class="comment">// Allows frontend on different port to access API</span>
+app.<span class="function">use</span>(<span class="function">cors</span>());
+app.<span class="function">use</span>(express.<span class="function">json</span>());
+            </div>
+        </div>
+
+        <!-- How Files Connect -->
+        <div class="slide">
+            <h2>🔗 How Files Connect Together</h2>
+
+            <div class="architecture-diagram">
+                <h3>Import Chain</h3>
+
+                <div style="background: white; padding: 30px; border-radius: 15px; margin: 20px 0;">
+                    <div class="flow-diagram" style="align-items: flex-start;">
+                        <div style="text-align: left; width: 100%;">
+                            <div class="flow-box" style="margin: 10px 0;">
+                                <strong>server.js</strong>
+                                <div style="font-size: 0.9em; opacity: 0.9; margin-top: 10px;">
+                                    ⬇️ imports: productRoutes, orderRoutes, orderItemRoutes<br>
+                                    ⬇️ uses: app.use('/products', productRoutes)
+                                </div>
+                            </div>
+
+                            <div class="flow-box" style="margin: 10px 0;">
+                                <strong>productRoutes.js</strong>
+                                <div style="font-size: 0.9em; opacity: 0.9; margin-top: 10px;">
+                                    ⬇️ imports: productController<br>
+                                    ⬇️ calls: controller.getAllProducts, controller.getProductById, etc.
+                                </div>
+                            </div>
+
+                            <div class="flow-box" style="margin: 10px 0;">
+                                <strong>productController.js</strong>
+                                <div style="font-size: 0.9em; opacity: 0.9; margin-top: 10px;">
+                                    ⬇️ imports: Product model<br>
+                                    ⬇️ calls: Product.findAll(), Product.findById(), etc.
+                                </div>
+                            </div>
+
+                            <div class="flow-box" style="margin: 10px 0;">
+                                <strong>product.js (Model)</strong>
+                                <div style="font-size: 0.9em; opacity: 0.9; margin-top: 10px;">
+                                    ⬇️ imports: @prisma/client<br>
+                                    ⬇️ uses: prisma.product.findMany(), prisma.product.create(), etc.
+                                </div>
+                            </div>
+
+                            <div class="flow-box" style="margin: 10px 0;">
+                                <strong>Prisma Client</strong>
+                                <div style="font-size: 0.9em; opacity: 0.9; margin-top: 10px;">
+                                    ⬇️ reads: schema.prisma<br>
+                                    ⬇️ connects to: PostgreSQL Database
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Example: Creating a Product</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Step</th>
+                        <th>File</th>
+                        <th>What Happens</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Client</td>
+                        <td>POST /products with JSON body</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>server.js</td>
+                        <td>Receives request, parses JSON, routes to /products</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>productRoutes.js</td>
+                        <td>Matches POST / → calls createProduct controller</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>productController.js</td>
+                        <td>Validates data, calls Product.create()</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>product.js</td>
+                        <td>Calls prisma.product.create() with data</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Prisma Client</td>
+                        <td>Generates SQL INSERT query</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>PostgreSQL</td>
+                        <td>Inserts row, returns new product with ID</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>Back to Client</td>
+                        <td>JSON response with status 201 and new product</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Testing & Tools -->
+        <div class="slide">
+            <h2>🧪 Testing & Development Tools</h2>
+
+            <h3>1. Postman / Thunder Client</h3>
+            <div class="info-box">
+                <p>API testing tools used to send HTTP requests and verify responses</p>
+                <ul>
+                    <li>Test all endpoints (GET, POST, PUT, DELETE)</li>
+                    <li>Send JSON request bodies</li>
+                    <li>Verify response status codes and data</li>
+                    <li>Save request collections for repeated testing</li>
+                </ul>
+            </div>
+
+            <h3>2. Prisma Studio</h3>
+            <div class="highlight-box">
+                <p><strong>Command:</strong> <code>npx prisma studio</code></p>
+                <p>Visual database browser that opens in your browser (localhost:5555)</p>
+                <ul>
+                    <li>View all tables and records</li>
+                    <li>Create, edit, delete records directly</li>
+                    <li>See relationships between tables</li>
+                    <li>Verify cascade deletes work correctly</li>
+                </ul>
+            </div>
+
+            <h3>3. Database Migrations</h3>
+            <div class="code-block">
+<span class="comment"># Create a new migration after schema changes</span>
+npx prisma migrate dev --name <span class="string">add_products_table</span>
+
+<span class="comment"># Apply migrations to production</span>
+npx prisma migrate deploy
+
+<span class="comment"># Reset database (development only)</span>
+npx prisma migrate reset
+            </div>
+
+            <h3>4. Database Seeding</h3>
+            <div class="success-box">
+                <p><strong>Command:</strong> <code>npm run seed</code></p>
+                <p>Populates the database with sample data for testing. The seed.js file contains:</p>
+                <ul>
+                    <li>Sample products (clothing, accessories, etc.)</li>
+                    <li>Sample orders with multiple items</li>
+                    <li>Realistic test data for development</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Middleware -->
+        <div class="slide">
+            <h2>🔧 Express Middleware</h2>
+
+            <div class="info-box">
+                <h3>What is Middleware?</h3>
+                <p>Functions that execute BEFORE your route handlers. They have access to the request and response objects and can modify them.</p>
+            </div>
+
+            <div class="code-block">
+<span class="comment">// server.js</span>
+<span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> cors = <span class="function">require</span>(<span class="string">'cors'</span>);
+<span class="keyword">const</span> app = <span class="function">express</span>();
+
+<span class="comment">// Middleware 1: Parse JSON request bodies</span>
+app.<span class="function">use</span>(express.<span class="function">json</span>());
+
+<span class="comment">// Middleware 2: Enable CORS (Cross-Origin Resource Sharing)</span>
+app.<span class="function">use</span>(<span class="function">cors</span>());
+
+<span class="comment">// Middleware 3: Mount routes</span>
+app.<span class="function">use</span>(<span class="string">'/products'</span>, productRoutes);
+app.<span class="function">use</span>(<span class="string">'/orders'</span>, orderRoutes);
+app.<span class="function">use</span>(<span class="string">'/order-items'</span>, orderItemRoutes);
+            </div>
+
+            <h3>Middleware Functions</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Middleware</th>
+                        <th>Purpose</th>
+                        <th>Why It's Needed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>express.json()</code></td>
+                        <td>Parse JSON request bodies</td>
+                        <td>Converts JSON strings to JavaScript objects so you can access req.body</td>
+                    </tr>
+                    <tr>
+                        <td><code>cors()</code></td>
+                        <td>Enable Cross-Origin requests</td>
+                        <td>Allows frontend (port 3001) to call backend API (port 3000)</td>
+                    </tr>
+                    <tr>
+                        <td><code>app.use('/path', router)</code></td>
+                        <td>Mount route modules</td>
+                        <td>Organizes routes into separate files by resource</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box">
+                <h4>Request Processing Order</h4>
+                <ol>
+                    <li>Request comes in</li>
+                    <li>express.json() parses body</li>
+                    <li>cors() adds CORS headers</li>
+                    <li>Router matches the path</li>
+                    <li>Controller function executes</li>
+                    <li>Response sent back</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Error Handling -->
+        <div class="slide">
+            <h2>⚠️ Error Handling</h2>
+
+            <h3>Try-Catch Pattern</h3>
+            <div class="info-box">
+                <p>Every controller function uses try-catch to handle errors gracefully and send appropriate HTTP status codes.</p>
+            </div>
+
+            <div class="code-block">
+<span class="keyword">const</span> <span class="function">getProductById</span> = <span class="keyword">async</span> (req, res) => {
+    <span class="keyword">try</span> {
+        <span class="comment">// Attempt to fetch product</span>
+        <span class="keyword">const</span> product = <span class="keyword">await</span> Product.<span class="function">findById</span>(req.params.id);
+
+        <span class="comment">// Success: send 200 status</span>
+        res.<span class="function">status</span>(200).<span class="function">json</span>(product);
+
+    } <span class="keyword">catch</span> (error) {
+        <span class="comment">// Error occurred: log it and send 500 status</span>
+        console.<span class="function">error</span>(<span class="string">'Error fetching product:'</span>, error);
+        res.<span class="function">status</span>(500).<span class="function">json</span>({
+            error: <span class="string">'Failed to fetch product'</span>
+        });
+    }
+};
+            </div>
+
+            <h3>HTTP Status Codes Used</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Meaning</th>
+                        <th>When Used</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>200</strong></td>
+                        <td>OK</td>
+                        <td>Successful GET, PUT, DELETE</td>
+                    </tr>
+                    <tr>
+                        <td><strong>201</strong></td>
+                        <td>Created</td>
+                        <td>Successful POST (resource created)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>400</strong></td>
+                        <td>Bad Request</td>
+                        <td>Invalid input data</td>
+                    </tr>
+                    <tr>
+                        <td><strong>404</strong></td>
+                        <td>Not Found</td>
+                        <td>Resource doesn't exist</td>
+                    </tr>
+                    <tr>
+                        <td><strong>500</strong></td>
+                        <td>Server Error</td>
+                        <td>Database error or unexpected issue</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="highlight-box">
+                <h4>Why Error Handling Matters</h4>
+                <ul>
+                    <li><strong>User Experience:</strong> Meaningful error messages instead of crashes</li>
+                    <li><strong>Debugging:</strong> console.error logs help track down issues</li>
+                    <li><strong>API Contract:</strong> Consistent error format for frontend</li>
+                    <li><strong>Security:</strong> Don't expose sensitive error details</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Environment Variables -->
+        <div class="slide">
+            <h2>🔐 Environment Variables & Security</h2>
+
+            <h3>The .env File</h3>
+            <div class="highlight-box">
+                <p>Stores sensitive configuration that should NEVER be committed to Git</p>
+            </div>
+
+            <div class="code-block">
+<span class="comment"># .env file</span>
+DATABASE_URL=<span class="string">"postgresql://username:password@localhost:5432/student_store"</span>
+            </div>
+
+            <h3>How It's Used</h3>
+            <div class="code-block">
+<span class="comment">// schema.prisma</span>
+<span class="keyword">datasource</span> db {
+    provider = <span class="string">"postgresql"</span>
+    url      = <span class="function">env</span>(<span class="string">"DATABASE_URL"</span>) <span class="comment">← Reads from .env</span>
+}
+            </div>
+
+            <h3>Security Best Practices</h3>
+            <div class="success-box">
+                <ul>
+                    <li>✅ .env is in .gitignore (never committed)</li>
+                    <li>✅ Separate .env files for development/production</li>
+                    <li>✅ Use environment variables for all secrets</li>
+                    <li>✅ Provide .env.example template (with fake values)</li>
+                </ul>
+            </div>
+
+            <div class="info-box">
+                <h4>What Goes in .env?</h4>
+                <ul>
+                    <li>Database connection strings</li>
+                    <li>API keys</li>
+                    <li>Secret tokens</li>
+                    <li>Port numbers (optional)</li>
+                    <li>Feature flags</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Key Achievements -->
+        <div class="slide">
+            <h2>🎯 Key Achievements & Features</h2>
+
+            <div class="success-box">
+                <h3>What Was Built</h3>
+                <ul style="font-size: 1.1em; line-height: 2.2;">
+                    <li>✅ <strong>Complete REST API</strong> with 15+ endpoints</li>
+                    <li>✅ <strong>MVC Architecture</strong> for clean, maintainable code</li>
+                    <li>✅ <strong>PostgreSQL Database</strong> with 3 related tables</li>
+                    <li>✅ <strong>Prisma ORM</strong> for type-safe database queries</li>
+                    <li>✅ <strong>CRUD Operations</strong> for Products, Orders, and OrderItems</li>
+                    <li>✅ <strong>Database Relationships</strong> with cascade deletes</li>
+                    <li>✅ <strong>Transaction Support</strong> for creating orders with items</li>
+                    <li>✅ <strong>Query Filtering</strong> by category and sorting</li>
+                    <li>✅ <strong>Error Handling</strong> with appropriate HTTP status codes</li>
+                    <li>✅ <strong>CORS Configuration</strong> for frontend integration</li>
+                    <li>✅ <strong>Database Seeding</strong> for test data</li>
+                    <li>✅ <strong>Migration System</strong> for version-controlled schema changes</li>
+                </ul>
+            </div>
+
+            <h3>Technical Skills Demonstrated</h3>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <h4>Backend Development</h4>
+                    <p>Node.js, Express.js, RESTful APIs</p>
+                </div>
+
+                <div class="tech-item">
+                    <h4>Database Design</h4>
+                    <p>Schema design, relationships, normalization</p>
+                </div>
+
+                <div class="tech-item">
+                    <h4>ORM Usage</h4>
+                    <p>Prisma queries, migrations, transactions</p>
+                </div>
+
+                <div class="tech-item">
+                    <h4>Architecture</h4>
+                    <p>MVC pattern, separation of concerns</p>
+                </div>
+
+                <div class="tech-item">
+                    <h4>Error Handling</h4>
+                    <p>Try-catch, HTTP status codes, validation</p>
+                </div>
+
+                <div class="tech-item">
+                    <h4>API Design</h4>
+                    <p>Route naming, request/response formats</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Challenges & Solutions -->
+        <div class="slide">
+            <h2>💪 Challenges & Solutions</h2>
+
+            <h3>Challenge 1: Database Relationships</h3>
+            <div class="highlight-box">
+                <strong>Problem:</strong> Understanding how to connect Orders, Products, and OrderItems
+                <br><br>
+                <strong>Solution:</strong> Implemented a junction table (OrderItem) to create a many-to-many relationship with proper foreign keys and cascade deletes
+            </div>
+
+            <h3>Challenge 2: Transaction Handling</h3>
+            <div class="highlight-box">
+                <strong>Problem:</strong> Creating an order with multiple items atomically (all or nothing)
+                <br><br>
+                <strong>Solution:</strong> Used Prisma's nested create feature to create Order and OrderItems in a single transaction
+            </div>
+
+            <h3>Challenge 3: Code Organization</h3>
+            <div class="highlight-box">
+                <strong>Problem:</strong> Keeping code maintainable as the project grows
+                <br><br>
+                <strong>Solution:</strong> Implemented MVC architecture with clear separation between routes, controllers, and models
+            </div>
+
+            <h3>Challenge 4: Cascade Deletes</h3>
+            <div class="highlight-box">
+                <strong>Problem:</strong> Ensuring orphaned OrderItems don't remain when Orders or Products are deleted
+                <br><br>
+                <strong>Solution:</strong> Configured <code>onDelete: Cascade</code> in Prisma schema for automatic cleanup
+            </div>
+        </div>
+
+        <!-- Future Enhancements -->
+        <div class="slide">
+            <h2>🚀 Possible Future Enhancements</h2>
+
+            <div class="info-box">
+                <h3>Features That Could Be Added</h3>
+            </div>
+
+            <h3>1. Authentication & Authorization</h3>
+            <ul>
+                <li>User registration and login</li>
+                <li>JWT tokens for session management</li>
+                <li>Role-based access control (admin vs. customer)</li>
+                <li>Protect endpoints that modify data</li>
+            </ul>
+
+            <h3>2. Advanced Filtering</h3>
+            <ul>
+                <li>Price range filters (?minPrice=10&maxPrice=50)</li>
+                <li>Search by product name</li>
+                <li>Pagination for large result sets</li>
+                <li>Sort by multiple fields</li>
+            </ul>
+
+            <h3>3. Order Management</h3>
+            <ul>
+                <li>Order history by customer</li>
+                <li>Order status tracking (pending → processing → shipped → delivered)</li>
+                <li>Order cancellation with stock restoration</li>
+                <li>Email notifications</li>
+            </ul>
+
+            <h3>4. Inventory Management</h3>
+            <ul>
+                <li>Stock quantity field in Product</li>
+                <li>Prevent ordering out-of-stock items</li>
+                <li>Low stock alerts</li>
+                <li>Automatic stock updates on order</li>
+            </ul>
+
+            <h3>5. Performance Optimizations</h3>
+            <ul>
+                <li>Redis caching for frequently accessed products</li>
+                <li>Database indexing on common query fields</li>
+                <li>Response compression</li>
+                <li>Rate limiting to prevent abuse</li>
+            </ul>
+
+            <h3>6. Payment Integration</h3>
+            <ul>
+                <li>Stripe or PayPal integration</li>
+                <li>Payment status tracking</li>
+                <li>Refund handling</li>
+            </ul>
+        </div>
+
+        <!-- Conclusion -->
+        <div class="slide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+            <h2 style="color: white; border-bottom-color: white;">🎓 Summary</h2>
+
+            <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 15px; border: 2px solid rgba(255,255,255,0.3);">
+                <h3 style="color: white;">Student Store Backend</h3>
+                <p style="font-size: 1.2em; margin: 20px 0;">
+                    A production-ready RESTful API built with modern tools and best practices.
+                    Demonstrates understanding of backend architecture, database design,
+                    and full-stack integration.
+                </p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 40px 0;">
+                <div style="background: rgba(255,255,255,0.1); padding: 25px; border-radius: 15px;">
+                    <h4 style="color: white;">15+</h4>
+                    <p>API Endpoints</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 25px; border-radius: 15px;">
+                    <h4 style="color: white;">3</h4>
+                    <p>Database Tables</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 25px; border-radius: 15px;">
+                    <h4 style="color: white;">MVC</h4>
+                    <p>Architecture Pattern</p>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 25px; border-radius: 15px;">
+                    <h4 style="color: white;">100%</h4>
+                    <p>CRUD Operations</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 50px;">
+                <h3 style="color: white;">Thank You!</h3>
+                <p style="font-size: 1.1em; margin-top: 20px;">Questions?</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="nav-buttons">
+        <button class="nav-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆️ Top</button>
+        <button class="nav-btn" onclick="window.print()">🖨️ Print</button>
+    </div>
+
+    <script>
+        // Smooth scrolling for better navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Student Store Backend Presentation Loaded');
+
+            // Add scroll progress indicator
+            window.addEventListener('scroll', function() {
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+
+                // Optional: Add a progress bar at the top
+                if (!document.getElementById('progressBar')) {
+                    const progressBar = document.createElement('div');
+                    progressBar.id = 'progressBar';
+                    progressBar.style.cssText = 'position: fixed; top: 0; left: 0; width: ' + scrolled + '%; height: 5px; background: linear-gradient(90deg, #667eea, #764ba2); z-index: 9999; transition: width 0.2s;';
+                    document.body.prepend(progressBar);
+                } else {
+                    document.getElementById('progressBar').style.width = scrolled + '%';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

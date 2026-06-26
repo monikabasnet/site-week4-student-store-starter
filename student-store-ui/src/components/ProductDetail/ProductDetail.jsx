@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import NotFound from "../NotFound/NotFound";
 import { formatPrice } from "../../utils/format";
@@ -12,6 +12,20 @@ function ProductDetail({ addToCart, removeFromCart, getQuantityOfItemInCart }) {
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    const fetchProduct = async () => {
+      setIsFetching(true);
+      try {
+        const response = await axios.get(`http://localhost:3000/products/${productId}`);
+        setProduct(response.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setIsFetching(false);
+      }
+    };
+    fetchProduct();
+  }, [productId]);
 
   if (error) {
     return <NotFound />;
@@ -37,6 +51,7 @@ function ProductDetail({ addToCart, removeFromCart, getQuantityOfItemInCart }) {
 
   return (
     <div className="ProductDetail">
+      <Link to="/" className="back-link">← Back to Store</Link>
       <div className="product-card">
         <div className="media">
           <img src={product.image_url || "/placeholder.png"} alt={product.name} />
